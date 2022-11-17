@@ -36,4 +36,16 @@ if_to_ruby = If.new(
 puts if_to_ruby
 puts eval(if_to_ruby).call({ x: false })
 
+sequence_to_ruby = Sequence.new(
+  Assign.new(:x, Number.new(1)),
+  Assign.new(:y, Add.new(Variable.new(:x), Number.new(2)))
+).to_ruby
+puts sequence_to_ruby
+puts eval(sequence_to_ruby).call({})
 
+while_to_ruby = While.new(
+  LessThan.new(Variable.new(:x), Number.new(5)),
+  Assign.new(:x, Multiply.new(Variable.new(:x), Number.new(3)))
+).to_ruby
+puts while_to_ruby
+puts eval(while_to_ruby).call({x: 1})

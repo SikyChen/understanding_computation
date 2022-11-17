@@ -144,3 +144,35 @@ class If < Struct.new(:condition, :consequence, :alternative)
     " end }"
   end
 end
+
+class Sequence < Struct.new(:first, :second)
+  def to_s
+    "#{first}; #{second};"
+  end
+
+  def inspect
+    "^#{self}^"
+  end
+
+  def to_ruby
+    "-> e { (#{second.to_ruby}).call((#{first.to_ruby}).call(e)) }"
+  end
+end
+
+class While < Struct.new(:condition, :body)
+  def to_s
+    "while (#{condition}) { #{body} }"
+  end
+
+  def inspect
+    "^#{self}^"
+  end
+
+  def to_ruby
+    "-> e {" +
+    " while (#{condition.to_ruby}).call(e);" +
+    " e = (#{body.to_ruby}).call(e);" +
+    " end;" +
+    " e; }"
+  end
+end
